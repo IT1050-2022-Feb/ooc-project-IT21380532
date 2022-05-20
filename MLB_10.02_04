@@ -1,0 +1,264 @@
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+//Customer class
+class Customer
+{
+private:
+	char CID;
+	string customerName;
+	string customerAddress;
+	int contactNo;
+	string username;
+	string password;
+public:
+	Customer();
+	Customer(char pCID, string cus_Name, string cus_Address, int contact);
+	bool setlogin();
+	void viewprofile();
+	void editprofile();
+	void deleteprofile();
+	bool setNewPassword();
+	~Customer();
+};
+
+//Packages class
+class Packages
+{
+private:
+	char packageID;
+	string packageName;
+	string description;
+	float price;
+	Payment* pay;
+	Boat* b1[10];
+public:
+	Packages();
+	void setPackageDetails(char pID, string pName, string pdesc, float pPrice);
+	void displayPackageDetails();
+	~Packages();
+};
+
+//BookingDetails class
+class BookingDetails
+{
+private:
+	char bookingID;
+	string bookingDate;
+	Customer* cus1;
+	Packages* pack1;
+public:
+	BookingDetails();
+	void storeBookingDetails(char bookID, string date);
+	void displayBookingDetails();
+	~BookingDetails();
+};
+
+//Boattrip class
+class Boattrip {
+private:
+	char tripID;
+	string description;
+	Packages* p[10];
+	Accommodation* a[10];
+public:
+	Boattrip();
+	void setTripDetails(char tID, string tDesc);
+	void displayTripDetails();
+	~Boattrip();
+};
+
+//Accommodation class
+class Accommodation
+{
+private:
+	char RID;
+	string description;
+	string location;
+	float price;
+public:
+	Accommodation();
+	Accommodation(char pRID, string aDesc, string aLocation,float aPrice);
+	void displayAccommodationDetails();
+	~Accommodation();
+};
+
+//Payment class
+class Payment
+{
+protected:
+	char paymentID;
+	float amount;
+	Packages* p[10];
+public:
+	Payment();
+	void setPaymentDetails(char payID, float payAmount);
+	float caltotalPayment();
+	void cancelPayment();
+	void confirmPayment();
+	void displayPaymentDetails();
+	~Payment();
+};
+
+//Card class
+class Card : public Payment
+{
+protected:
+	int cardNumber;
+	char cardType;
+	int CVV;
+	string exp_date;
+public:
+	Card();
+	Card(int crdNumber, char type, int cvv,string exp);
+	~Card();
+};
+
+//Paypal class
+class Paypal : public Payment
+{
+protected:
+	int PaypalID;
+	char PaypalType;
+public:
+	Paypal();
+	Paypal(int payID, char payType);
+	~Paypal();
+};
+
+//Boat Class
+class Boat
+{
+private:
+	char boatID;
+	string boatName;
+	string description;
+public:
+	Boat();
+	void setBoatDetails(char bID, string bName, string bDesc);
+	void displayBoatDetails();
+	~Boat();
+};
+
+//Boatseller class
+class Boatseller
+{
+private:
+	char SID;
+	string sellerName;
+	string sellerAddress;
+	int sellerContact;
+	string username;
+	string password;
+	Boat* boat;
+public:
+	Boatseller();
+	Boatseller(char sSID, string sName, string sAddress,int sContact);
+	void displaySellerDetails();
+	void AddNewBoat();
+	bool setLogin();
+	~Boatseller();
+};
+
+//Employee class
+class Employee
+{
+private:
+	char empID;
+	string empName;
+	string title;
+	string address;
+	int contactNo;
+	string username;
+	string password;
+public:
+	Employee();
+	Employee(char pEmpID, string pEmpName, string pTitle, string pEmpAddress, int pEmpContact);
+	void displayEmployeeDetails();
+	bool setLogin();
+	void manageDetails();
+	~Employee();
+};
+
+int main() {
+
+	//Create object for Customer Class
+	Customer c1('C001',"Amal","Colombo",0771234676);
+
+	c1.setlogin();
+	c1.viewprofile();
+	c1.editprofile();
+	c1.deleteprofile();
+	c1.setNewPassword();
+
+	//Create object for Package class
+	Packages pack1;
+
+	pack1.setPackageDetails('P001', "Family package", "Most famous package", 5000.00);
+	pack1.displayPackageDetails();
+
+	//Create BookingDetails class
+	BookingDetails BD;
+
+	BD.storeBookingDetails('B105', "12/05/2022");
+	BD.displayBookingDetails();
+
+	//Create object for Boattrip class
+	Boattrip BT1;
+
+	BT1.setTripDetails('T002', "Long trip");
+	BT1.displayTripDetails();
+
+	//Create object for Accommodation class
+	Accommodation a1('R045',"Comfortable","3rd floor",1200.00);
+
+	//Create object for Boat class
+	Boat B1;
+
+	B1.setBoatDetails('T002', "pearl", "Long trip");
+	B1.displayBoatDetails();
+
+	a1.displayAccommodationDetails();
+
+	//Create object for Payment class
+	Payment p1;
+
+	p1.setPaymentDetails('P241', 3500.00);
+	p1.caltotalPayment();
+	p1.cancelPayment();
+	p1.confirmPayment();
+	p1.displayPaymentDetails();
+
+	//Create object for Card class
+	Card crd1(24513,'VISA',245,"21/01.2025");
+
+	crd1.displayPaymentDetails();
+
+	//Create object for Paypal class
+	Paypal pay1(3425, 'W');
+
+	pay1.displayPaymentDetails();
+
+	//Create object for Boatseller class(Dynamically)
+	Boatseller* BS1 = new Boatseller('S005', "Kamal", "Nawala", 0764235167);
+
+	BS1->displaySellerDetails();
+	BS1->setLogin();
+	BS1->AddNewBoat();
+
+	//Create object for Employee class(Dynamically)
+	Employee* emp1;
+
+	emp1 = new Employee('E003', "Amali", "Receptionist", "Nugegoda", 0753452671);
+
+	emp1->setLogin();
+	emp1->displayEmployeeDetails();
+	emp1->manageDetails();
+
+	delete BS1;
+	delete emp1;
+
+	return 0;
+}
